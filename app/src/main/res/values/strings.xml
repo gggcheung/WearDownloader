@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WearDownloader</string>
+    <string name="downloader_text">Downloader</string>
+</resources>
