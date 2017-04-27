@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -104,15 +107,16 @@ public class MainActivity extends WearableActivity {
         mConnectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         Network activeNetwork = mConnectivityManager.getActiveNetwork();
-
         if (activeNetwork == null) {
             return;
         }
 
+        final NetworkInfo activeNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
         final int bandwidthkBps =
                 mConnectivityManager.getNetworkCapabilities(activeNetwork).getLinkDownstreamBandwidthKbps() / 8;
 
-        mBandwidthTextView.setText("Expected bandwdith: " + bandwidthkBps + "kBps");
+        mBandwidthTextView.setText(activeNetworkInfo.getTypeName() + ": " + bandwidthkBps + "kBps");
+        Log.i(TAG, activeNetworkInfo.toString());
 
         return;
     }
