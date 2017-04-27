@@ -155,8 +155,11 @@ public class MainActivity extends WearableActivity {
         protected void onProgressUpdate(Integer... progress) {
             super.onProgressUpdate(progress);
 
+            final int percent = progress[0] * 100 / progress[1];
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setProgress(progress[0]);
+            mProgressDialog.setMax(progress[1]);
+
         }
 
         @Override
@@ -207,8 +210,9 @@ public class MainActivity extends WearableActivity {
                         return null;
                     }
                     totalReadBytes += currentReadBytes;
-                    if (fileLength > 0)
-                        publishProgress((int) (totalReadBytes * 100 / fileLength));
+                    if (fileLength > 0) {
+                        publishProgress((int)(totalReadBytes), (int)fileLength);
+                    }
                 }
             } catch (Exception e) {
                 return e.toString();
