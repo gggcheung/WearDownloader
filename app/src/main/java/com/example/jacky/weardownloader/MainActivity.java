@@ -72,6 +72,7 @@ public class MainActivity extends WearableActivity {
                 mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
+                        Log.i(TAG, "cancelling download!");
                         mDownloadTask.cancel(true);
                     }
                 });
@@ -157,11 +158,18 @@ public class MainActivity extends WearableActivity {
         }
 
         @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            mWakeLock.release();
+            mLastDownloadTimeTextView.setText("Last Download Cancelled");
+        }
+
+        @Override
         protected void onPostExecute(String result) {
             mWakeLock.release();
             mProgressDialog.dismiss();
             if (result != null) {
-                Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Download error: " + result, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show();
                 mLastDownloadTime = System.currentTimeMillis() - mStartTime;
