@@ -45,7 +45,6 @@ public class MainActivity extends WearableActivity {
     private ProgressDialog mProgressDialog;
 
     private ConnectivityManager mConnectivityManager;
-
     private DownloadTask mDownloadTask;
 
     private long mLastDownloadTime, mStartTime;
@@ -82,7 +81,7 @@ public class MainActivity extends WearableActivity {
             }
         });
 
-        checkBandwidth();
+        checkNetworkInfo();
     }
 
     @Override
@@ -103,7 +102,7 @@ public class MainActivity extends WearableActivity {
         super.onExitAmbient();
     }
 
-    private void checkBandwidth() {
+    private void checkNetworkInfo() {
         mConnectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         Network activeNetwork = mConnectivityManager.getActiveNetwork();
@@ -157,7 +156,6 @@ public class MainActivity extends WearableActivity {
             super.onProgressUpdate(progress);
 
             mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setMax(100);
             mProgressDialog.setProgress(progress[0]);
         }
 
